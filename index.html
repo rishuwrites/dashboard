@@ -412,7 +412,7 @@
 
 <script>
 const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTt6_e_6_AyIMNPLo8WoSo85L5uL0EVXDnznVQGpKSIFgs-NvgWHM1RWV3GY7F7FxvUAHfwf8OQpYjO/pub?output=csv';
-const PROXY = `https://corsproxy.io/?${encodeURIComponent(CSV_URL)}`;
+const PROXY = `https://corsproxy.io/?${encodeURIComponent(CSV_URL)}&_=${Date.now()}`;
 
 let rawData = [];
 let filteredData = [];
@@ -439,7 +439,7 @@ async function loadData() {
   document.getElementById('error-banner').style.display = 'none';
 
   try {
-    const res = await fetch(PROXY);
+    const res = await fetch(PROXY, {   cache: 'no-store',   headers: { 'Cache-Control': 'no-cache' } });
     if (!res.ok) throw new Error('Network error');
     const text = await res.text();
     rawData = parseCSV(text);
